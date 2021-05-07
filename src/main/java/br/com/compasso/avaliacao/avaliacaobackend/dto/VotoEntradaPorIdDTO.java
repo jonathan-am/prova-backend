@@ -1,5 +1,8 @@
 package br.com.compasso.avaliacao.avaliacaobackend.dto;
 
+/**
+ * Classe DTO para entrada de dados com chave primaria ID, do valor VOTO da entidade Associado
+ */
 public class VotoEntradaPorIdDTO {
 
     private String id;

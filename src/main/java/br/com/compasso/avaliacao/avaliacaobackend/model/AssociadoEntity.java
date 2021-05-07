@@ -4,6 +4,9 @@ import org.springframework.data.annotation.Id;
 
 import java.util.HashMap;
 
+/**
+ * Classe da entidade Associado
+ */
 public class AssociadoEntity {
 
     @Id

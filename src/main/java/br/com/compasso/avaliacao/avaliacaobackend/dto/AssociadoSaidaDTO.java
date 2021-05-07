@@ -1,9 +1,13 @@
 package br.com.compasso.avaliacao.avaliacaobackend.dto;
 
-import br.com.compasso.avaliacao.avaliacaobackend.model.SessaoEntity;
+
+import br.com.compasso.avaliacao.avaliacaobackend.model.AssociadoEntity;
 
 import java.util.HashMap;
 
+/**
+ * Classe DTO para saida de dados, da entidade Associado
+ */
 public class AssociadoSaidaDTO {
 
     private String id;
@@ -12,8 +16,8 @@ public class AssociadoSaidaDTO {
 
     public AssociadoSaidaDTO(String id, String nome, HashMap<String, String> sessoesVotadas) {
         this.id = id;
-        this.sessoesVotadas = sessoesVotadas;
         this.nome = nome;
+        this.sessoesVotadas = sessoesVotadas;
     }
 
     public String getNome() {

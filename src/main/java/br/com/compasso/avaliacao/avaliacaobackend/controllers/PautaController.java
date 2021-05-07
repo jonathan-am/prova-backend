@@ -10,30 +10,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Classe Controller da entidade Pauta
+ */
 @RestController
 public class PautaController {
 
     @Autowired
     private PautaService service;
 
-    @PostMapping(value = "/criar/pauta", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/pauta", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> criar(@RequestBody PautaEntradaDTO entity) {
-        return ResponseEntity.ok(service.createNewPauta(entity));
+        return ResponseEntity.ok(service.createNewPauta(entity.dtoToEntity()));
     }
 
-    @DeleteMapping("/remover/pauta/{id}")
+    @DeleteMapping("/pauta/{id}")
     public void deletar(@PathVariable String id) {
         service.deletePauta(id);
     }
 
-    @GetMapping("/pautas")
+    @GetMapping("/pauta")
     @ResponseBody
     public List<PautaEntity> buscarTodos() {
         return service.getPautas();
     }
 
-    @PutMapping("/editar/pauta/{id}")
+    @PutMapping("/pauta/{id}")
     public PautaEntity editar(@PathVariable String id, @RequestBody PautaEntity pauta) {
         return service.editPauta(id, pauta);
     }

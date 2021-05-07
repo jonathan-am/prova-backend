@@ -1,5 +1,8 @@
 package br.com.compasso.avaliacao.avaliacaobackend.dto;
 
+/**
+ * Classe DTO para entrada de dados, da entidade Sessao
+ */
 public class SessaoEntradaDTO {
 
     private String pautaId;

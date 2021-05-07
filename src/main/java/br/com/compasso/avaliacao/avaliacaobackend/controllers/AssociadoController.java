@@ -1,83 +1,58 @@
 package br.com.compasso.avaliacao.avaliacaobackend.controllers;
 
+import br.com.compasso.avaliacao.avaliacaobackend.business.AssociadoBusiness;
 import br.com.compasso.avaliacao.avaliacaobackend.dto.*;
-import br.com.compasso.avaliacao.avaliacaobackend.model.AssociadoEntity;
-import br.com.compasso.avaliacao.avaliacaobackend.model.SessaoEntity;
 import br.com.compasso.avaliacao.avaliacaobackend.services.AssociadoService;
-import br.com.compasso.avaliacao.avaliacaobackend.services.SessaoService;
-import br.com.compasso.avaliacao.avaliacaobackend.services.ValidaCpfService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Classe controller da entidade Associado
+ */
 @RestController
 public class AssociadoController {
 
     @Autowired
     private AssociadoService service;
-
     @Autowired
-    private SessaoService sessaoService;
+    private AssociadoBusiness business;
 
-    @Autowired
-    private ValidaCpfService validaService;
 
-    @PostMapping("/criar/associado")
+    @PostMapping("/associado")
     @ResponseBody
     public AssociadoSaidaDTO criar(@RequestBody AssociadoEntradaDTO entity) {
-        return service.createNewAssociado(entity);
+        return service.createNewAssociado(entity.dtoToEntity());
     }
 
-    @DeleteMapping("/remover/associado/{id}")
+    @DeleteMapping("/associado/{id}")
     public void deletar(@PathVariable String id) {
         service.deleteAssociado(id);
     }
 
-    @GetMapping("/associados")
+    @GetMapping("/associado")
     @ResponseBody
     public List<AssociadoSaidaDTO> buscarTodos() {
         return service.getAssociados();
     }
 
-    @PutMapping("/editar/associado/{id}")
-    public AssociadoSaidaDTO editar(@PathVariable String id, @RequestBody AssociadoEntity associado) {
+    @PutMapping("/associado/{id}")
+    public AssociadoSaidaDTO editar(@PathVariable String id, @RequestBody AssociadoEntradaDTO associado) {
         return service.editAssociado(id, associado);
     }
 
     // Voto Por Cpf = v1
-    @PutMapping("/votar/associado/v1/{id}")
+    @PutMapping("/associado/v1/{id}")
     public ResponseEntity<?> votarNaSessaoPeloCpf(@PathVariable String id, @RequestBody VotoEntradaPorCpfDTO voto) {
-        AssociadoEntity associado = service.buscaPorCpf(voto.getCpf());
-        if (validaService.check(associado.getCpf()) != null) {
-            CpfStatusDTO statusDTO = validaService.check(associado.getCpf());
-            if (statusDTO.getStatus().equals("ABLE_TO_VOTE")) {
-                SessaoEntity ent = sessaoService.computaVoto(id, voto.getVotoDto(), associado);
-                if (ent == null) {
-                    statusDTO.setStatus("UNABLE_TO_VOTE");
-                }
-            }
-            return ResponseEntity.ok(statusDTO);
-        }
-        return ResponseEntity.notFound().build();
+        return business.checkEComputaVoto(id, voto.getVotoDto(), service.getByCpf(voto.getCpf()));
     }
 
     // Voto Por Id = v2
-    @PutMapping("/votar/associado/v2/{id}")
+    @PutMapping("/associado/v2/{id}")
     public ResponseEntity<?> votarNaSessaoPeloId(@PathVariable String id, @RequestBody VotoEntradaPorIdDTO voto) {
-        AssociadoEntity associado = service.buscaPorId(voto.getId());
-        if (validaService.check(associado.getCpf()) != null) {
-            CpfStatusDTO statusDTO = validaService.check(associado.getCpf());
-            if (statusDTO.getStatus().equals("ABLE_TO_VOTE")) {
-                SessaoEntity ent = sessaoService.computaVoto(id, voto.getVotoDto(), associado);
-                if (ent == null) {
-                    statusDTO.setStatus("UNABLE_TO_VOTE");
-                }
-            }
-            return ResponseEntity.ok(statusDTO);
-        }
-        return ResponseEntity.notFound().build();
+        return business.checkEComputaVoto(id, voto.getVotoDto(), service.getById(voto.getId()));
     }
+
 }

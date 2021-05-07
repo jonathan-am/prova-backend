@@ -1,5 +1,8 @@
 package br.com.compasso.avaliacao.avaliacaobackend.dto;
 
+/**
+ * Classe DTO para a entrada, saida e manipulação de dados, do valor Voto
+ */
 public class VotoDTO {
 
     private String voto;

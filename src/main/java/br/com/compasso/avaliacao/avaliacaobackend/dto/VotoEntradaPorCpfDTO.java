@@ -1,5 +1,8 @@
 package br.com.compasso.avaliacao.avaliacaobackend.dto;
 
+/**
+ * Classe DTO para entrada de dados com chave primaria CPF, do valor VOTO da entidade Associado
+ */
 public class VotoEntradaPorCpfDTO {
 
     private String cpf;

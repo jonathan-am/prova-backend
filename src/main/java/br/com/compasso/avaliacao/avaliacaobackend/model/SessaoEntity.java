@@ -4,6 +4,9 @@ import org.springframework.data.annotation.Id;
 
 import java.util.HashMap;
 
+/**
+ * Classe Sessao
+ */
 public class SessaoEntity {
 
     @Id
@@ -12,6 +15,10 @@ public class SessaoEntity {
     private HashMap<String, String> votos;// K = AssociadoID, V = voto
     private int tempo = 1;
     private boolean aberta = true;
+
+    public SessaoEntity() {
+        this.votos = new HashMap<>();
+    }
 
     public int getTempo() {
         return tempo;
@@ -31,10 +38,6 @@ public class SessaoEntity {
 
     public void setAberta(boolean aberta) {
         this.aberta = aberta;
-    }
-
-    public SessaoEntity() {
-        votos = new HashMap<>();
     }
 
     public PautaEntity getPautaEmQuestao() {
