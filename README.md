@@ -1,4 +1,2 @@
-# prova-backend
-Prova solicitada por uma compania bancaria.
-
-Para funcionamento do pod, necessario uma instancia do Kafka.
+# Backend Test
+This project was a backend test for a banking company
